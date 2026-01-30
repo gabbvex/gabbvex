@@ -15,7 +15,7 @@ jobs:
         uses: anuraghazra/github-readme-stats@master
         with:
           username: gabbvex
-          PAT_TOKEN: ${{ secrets.GH_TOKEN }}
+          PAT_TOKEN: ${{ secrets.GH_TOKEN1 }}
           SHOW_ICONS: true
           THEME: radical
 
