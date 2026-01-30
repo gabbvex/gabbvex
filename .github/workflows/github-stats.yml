@@ -1,0 +1,28 @@
+name: Atualizar Estatísticas do GitHub
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Roda a cada 6 horas
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Gerar Estatísticas
+        uses: anuraghazra/github-readme-stats@master
+        with:
+          username: gabbvex
+          PAT_TOKEN: ${{ secrets.GH_TOKEN }}
+          SHOW_ICONS: true
+          THEME: radical
+
+      - name: Commit e Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "docs(stats): atualizar estatísticas do GitHub" || echo "Nenhuma mudança para commitar"
+          git push
