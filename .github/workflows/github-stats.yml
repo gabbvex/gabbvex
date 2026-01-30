@@ -2,7 +2,7 @@ name: Atualizar Estatísticas do GitHub
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Roda a cada 6 horas
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 jobs:
@@ -11,18 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Gerar Estatísticas
-        uses: anuraghazra/github-readme-stats@master
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
         with:
-          username: gabbvex
-          PAT_TOKEN: ${{ secrets.GH_TOKEN1 }}
-          SHOW_ICONS: true
-          THEME: radical
+          node-version: '16'
 
-      - name: Salvar imagens
+      - name: Clonar github-readme-stats
         run: |
-          curl "https://github-readme-stats.vercel.app/api?username=gabbvex&show_icons=true&theme=radical" > github-stats.svg
-          curl "https://github-readme-stats.vercel.app/api/top-langs/?username=gabbvex&layout=compact&theme=radical" > top-langs.svg
+          git clone https://github.com/anuraghazra/github-readme-stats.git
+          cd github-readme-stats
+          npm install
+
+      - name: Gerar SVGs
+        run: |
+          cd github-readme-stats
+          node index.js --username gabbvex --theme radical --show-icons true > ../github-stats.svg
+          node index.js --username gabbvex --layout compact --theme radical > ../top-langs.svg
 
       - name: Commit e Push
         run: |
