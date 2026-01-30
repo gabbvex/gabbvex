@@ -19,6 +19,11 @@ jobs:
           SHOW_ICONS: true
           THEME: radical
 
+      - name: Salvar imagens
+        run: |
+          curl "https://github-readme-stats.vercel.app/api?username=gabbvex&show_icons=true&theme=radical" > github-stats.svg
+          curl "https://github-readme-stats.vercel.app/api/top-langs/?username=gabbvex&layout=compact&theme=radical" > top-langs.svg
+
       - name: Commit e Push
         run: |
           git config --global user.name "github-actions[bot]"
